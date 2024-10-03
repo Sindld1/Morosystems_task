@@ -10,6 +10,7 @@ describe('Morosystems Task', () => {
         await GooglePage.open();
         await GooglePage.rejectCookiesIfPresent();
         await GooglePage.searchFor('MoroSystems');
+        await GooglePage.waitForResultsLoad();
         const resultCount = await SearchResultsPage.getNumberOfResults();
         expect(resultCount).toBeGreaterThan(0);
         await SearchResultsPage.clickOnMorosystemsLink();

@@ -1,3 +1,6 @@
+//import {ReportAggregator } from 'wdio-html-nice-reporter';
+import {ReportAggregator } from 'wdio-html-nice-reporter';
+let reportAggregator : ReportAggregator;
 export const config: WebdriverIO.Config = {
     //
     // ====================
@@ -5,8 +8,7 @@ export const config: WebdriverIO.Config = {
     // ====================
     // WebdriverIO supports running e2e tests as well as unit and component tests.
     runner: 'local',
-    tsConfigPath: './tsconfig.e2e.json',
-    
+    tsConfigPath: './tsconfig.json',
     //
     // ==================
     // Specify Test Files
@@ -53,7 +55,7 @@ export const config: WebdriverIO.Config = {
     // https://saucelabs.com/platform/platform-configurator
     //
     capabilities: [{
-        browserName: 'chrome'
+        browserName: 'chrome'      
     }, {
         browserName: 'firefox'
     }, {
@@ -91,7 +93,7 @@ export const config: WebdriverIO.Config = {
     // with `/`, the base url gets prepended, not including the path portion of your baseUrl.
     // If your `url` parameter starts without a scheme or `/` (like `some/path`), the base url
     // gets prepended directly.
-    // baseUrl: 'http://localhost:8080',
+    baseUrl: 'https://www.morosystems.cz',
     //
     // Default timeout for all waitFor* commands.
     waitforTimeout: 10000,
@@ -115,8 +117,7 @@ export const config: WebdriverIO.Config = {
     //
     // Make sure you have the wdio adapter package for the specific framework installed
     // before running any tests.
-    framework: 'jasmine',
-    
+    framework: 'jasmine',  
     //
     // The number of times to retry the entire specfile when it fails as a whole
     // specFileRetries: 1,
@@ -130,8 +131,21 @@ export const config: WebdriverIO.Config = {
     // Test reporter for stdout.
     // The only one supported by default is 'dot'
     // see also: https://webdriver.io/docs/dot-reporter
-    reporters: ['spec','video','html-nice'],
-
+    reporters: ['spec',
+        ['html-nice',{
+        outputDir: './reports/html-reports/',
+        filename: 'report.html',
+        reportTitle: 'Morosystems FE Test Report',
+        linkScreenshots: true,
+        showInBrowser: true,         //to show the report in a browser when done
+        collapseTests: true,
+        useOnAfterCommandForScreenshot: true, //to turn on screenshots after every test must be false to use video
+        }],
+        ['video', {
+        saveAllVideos: false,       // If true, also saves videos for successful test cases
+        videoSlowdownMultiplier: 3, // Higher to get slower videos, lower for faster videos [Value 1-100]
+        outputDir: './reports/html-reports/',
+      }],],
     // Options to be passed to Jasmine.
     jasmineOpts: {
         // Jasmine default timeout
@@ -140,11 +154,10 @@ export const config: WebdriverIO.Config = {
         // The Jasmine framework allows interception of each assertion in order to log the state of the application
         // or website depending on the result. For example, it is pretty handy to take a screenshot every time
         // an assertion fails.
-        expectationResultHandler: function(passed, assertion) {
+        expectationResultHandler: function() {
             // do something
         }
     },
-
     //
     // =====
     // Hooks
@@ -153,13 +166,38 @@ export const config: WebdriverIO.Config = {
     // it and to build services around it. You can either apply a single function or an array of
     // methods to it. If one of them returns with a promise, WebdriverIO will wait until that promise got
     // resolved to continue.
+
+    before: function () {
+        browser.maximizeWindow(); 
+    },
+
+    onPrepare: function(config, capabilities) {
+
+            reportAggregator = new ReportAggregator({
+            outputDir: './reports/html-reports/',
+            filename: 'master-report.html',
+            reportTitle: 'Master Report',
+            browserName: '',
+            collapseTests: true
+        });
+        reportAggregator.clean();
+    },
+    
+    onComplete: function (exitCode, config, capabilities, results) {
+        (async () => {
+            await reportAggregator.createReport();
+        })();
+    },
     /**
+     * 
+     * 
      * Gets executed once before all workers get launched.
      * @param {object} config wdio configuration object
      * @param {Array.<Object>} capabilities list of capabilities details
      */
     // onPrepare: function (config, capabilities) {
     // },
+
     /**
      * Gets executed before a worker process is spawned and can be used to initialize specific service
      * for that worker as well as modify runtime environments in an async fashion.

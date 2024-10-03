@@ -1,5 +1,4 @@
 import { $ } from '@wdio/globals';
-export const homeUrl = "https://www.morosystems.cz"
 
 class MoroHomePage {
     get acceptCookiesButton() {return $('#cookiescript_accept');}

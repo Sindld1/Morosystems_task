@@ -4,6 +4,7 @@ class GooglePage {
 
     get searchBar() { return $('[name="q"]'); }
     get rejectCookiesButton() { return $('button=Odmítnout vše'); }  
+    get resultsSelector() { return $('#rcnt'); }  
 
     async open() {
         await browser.url('https://www.google.com');
@@ -20,6 +21,9 @@ class GooglePage {
     async searchFor(query: string) {
         await this.searchBar.setValue(query);
         await browser.keys('Enter'); 
+    }
+    async waitForResultsLoad() {
+        await this.resultsSelector.waitForDisplayed({ timeout: 5000 });
     }
 }
 

@@ -1,7 +1,6 @@
 # Installation steps:
 install node.js from website
-npm i -g typescript 
-npm i -g ts-node 
+npm install ts-node typescript -D
 npm init wdio .
 - @wdio/local-runner@latest
 - @wdio/jasmine-framework@latest
@@ -13,3 +12,12 @@ npm init wdio .
 
 # Run test with command:
 npx wdio run wdio.conf.ts
+
+# Used reporters:
+- spec-reporter
+- wdio-video-reporter
+- wdio-html-nice-reporter
+
+# Results in 
+./reports/html-reports/
+for agregated reports - master-report.html
