@@ -171,7 +171,7 @@ export const config: WebdriverIO.Config = {
         browser.maximizeWindow(); 
     },
 
-    onPrepare: function(config, capabilities) {
+    onPrepare: function() {
 
             reportAggregator = new ReportAggregator({
             outputDir: './reports/html-reports/',
@@ -183,7 +183,7 @@ export const config: WebdriverIO.Config = {
         reportAggregator.clean();
     },
     
-    onComplete: function (exitCode, config, capabilities, results) {
+    onComplete: function () {
         (async () => {
             await reportAggregator.createReport();
         })();
