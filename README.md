@@ -5,7 +5,6 @@ npm init wdio .
 - @wdio/local-runner@latest
 - @wdio/jasmine-framework@latest
 - @wdio/spec-reporter@latest
-- wdio-video-reporter
 - wdio-html-nice-reporter
 - wdio-wait-for
 - @types/jasmine
