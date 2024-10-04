@@ -36,7 +36,7 @@ export const config: WebdriverIO.Config = {
         ['html-nice', {
             outputDir: './reports/html-reports',
             filename: 'report.html',
-            reportTitle: 'Test Report',
+            reportTitle: 'Morosystems FE test report',
             showInBrowser: true,
             collapseTests: false,
             useOnAfterCommandForScreenshot: true,
