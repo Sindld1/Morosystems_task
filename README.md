@@ -12,11 +12,16 @@ npm init wdio .
 # Run test with command:
 npx wdio run wdio.conf.ts
 
+# Used browsers:
+- chrome
+- firefox
+- edge
+
 # Used reporters:
 - spec-reporter
-- wdio-video-reporter
 - wdio-html-nice-reporter
 
 # Results in 
 ./reports/html-reports/
 for agregated reports - master-report.html
+in case of failure, printscreens are saved
